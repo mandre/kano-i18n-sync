@@ -18,10 +18,10 @@ We've created Zanata translation projects for the following apps:
 * [kano-profile](https://translate.zanata.org/project/view/kano-profile/)
 * [kano-settings](https://translate.zanata.org/project/view/kano-settings/)
 * [kano-toolset](https://translate.zanata.org/project/view/kano-toolset/)
-* [kano-updated](https://translate.zanata.org/project/view/kano-updated/)
+* [kano-updater](https://translate.zanata.org/project/view/kano-updater/)
 * [kano-vnc](https://translate.zanata.org/project/view/kano-vnc/)
 * [kano-widgets](https://translate.zanata.org/project/view/kano-widgets/)
-* [make-snakes](https://translate.zanata.org/project/view/make-snakes/)
+* [make-snake](https://translate.zanata.org/project/view/make-snake/)
 * [terminal-quest](https://translate.zanata.org/project/view/terminal-quest/)
 
 
