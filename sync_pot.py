@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # Upload latest pot files to zanata
 
+import glob
 import os
 import paramiko
+import re
 import subprocess
 import tempfile
 import yaml
@@ -98,6 +100,45 @@ def copy_pot_files(remote, local):
         scp.get(os.path.join(remote, filename), os.path.join(local, filename))
 
 
+def validate_pot_files(potdir):
+    for potfile in glob.glob(os.path.join(potdir, "*.pot")):
+        validate_pot_file(potfile)
+
+
+def validate_pot_file(potfile):
+    print("Validating pot file %s" % potfile)
+    command = ["msgfmt", "-c", potfile]
+    stdout, stderr, exit_status = run_command(command)
+    if exit_status != 0:
+        attempt_fix_pot(potfile, stderr)
+
+
+def attempt_fix_pot(potfile, errors):
+    line = errors.splitlines()
+    pattern_dup = re.compile(r"%s:(\d+): duplicate message definition"
+                             % potfile)
+    match_dup = pattern_dup.match(line[0])
+    if match_dup:
+        print("Fixing duplication error in pot file")
+        pattern_init = re.compile(
+            r"%s:(\d+): ...this is the location of the first definition"
+            % potfile)
+        match_init = pattern_init.match(line[1])
+        line_number_dup = int(match_dup.group(1))
+        line_number_init = int(match_init.group(1))
+        command = ["sed", "-i", "%s,/^$/d" % line_number_dup, potfile]
+        run_command(command)
+        command = ["ex", "-s", "-c", "%sm%s" % (line_number_dup - 1,
+                                                line_number_init - 2), "-c",
+                   "w", "-c", "q", potfile]
+        run_command(command)
+        validate_pot_file(potfile)
+    else:
+        print("Cannot automatically fix error:")
+        print(errors)
+        exit()
+
+
 def upload_pot_files(project, potdir):
     print("Uploading pot files for %s" % project['name'])
     command = ["zanata", "push", "-f", "--srcdir", potdir,
@@ -136,6 +177,7 @@ for project in projects:
 
     with tempfile.TemporaryDirectory() as tmpdirname:
         copy_pot_files(project['pot_dir'], tmpdirname)
+        validate_pot_files(tmpdirname)
         upload_pot_files(project, tmpdirname)
 
 scp.close()
