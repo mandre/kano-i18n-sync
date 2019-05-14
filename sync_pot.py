@@ -107,6 +107,7 @@ def validate_pot_files(potdir):
 
 def validate_pot_file(potfile):
     print("Validating pot file %s" % potfile)
+    # FIXME(mandre) should probably force locale to C before running msgfmt
     command = ["msgfmt", "-c", potfile]
     stdout, stderr, exit_status = run_command(command)
     if exit_status != 0:
