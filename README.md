@@ -81,3 +81,17 @@ The script does not take options, simply invoke it with:
 ```
 
 ### Pull latest translations from Zanata and update Kano
+
+The `pull_translations.py` script does more or less the opposite. It pulls the
+latest translated content from Zanata and copies it to the Kano computer in
+a format that Kano understands.
+
+This is intended for Kano users and can be run any time to update translations
+to their latest version.
+
+You need to pass it a locale name that is valid on the Zanata server, for
+instance:
+
+```
+./pull_translations.py fr
+```
