@@ -106,8 +106,9 @@ for project in projects:
     with tempfile.TemporaryDirectory() as tmpdirname:
         copy_pot_files(project['pot_dir'], tmpdirname)
         pull_po(project, tmpdirname, lang)
-        build_mo(project, tmpdirname, lang)
-        copy_mo_file(project, tmpdirname, lang)
+        if glob.glob(os.path.join(tmpdirname, "*.po")):
+            build_mo(project, tmpdirname, lang)
+            copy_mo_file(project, tmpdirname, lang)
 
 scp.close()
 ssh.close()
