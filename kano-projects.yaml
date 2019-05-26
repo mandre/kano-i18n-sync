@@ -14,8 +14,8 @@
   zanata_project_type: gettext
   kano_i18n_package_name: kano-dashboard-i18n-orig
   pot_dir: /mnt/translations/translations/kano-dashboard/
-- name: kano-draw
-  zanata_project_id: kano-draw
+- name: make-art
+  zanata_project_id: make-art
   zanata_project_type: podir
   kano_i18n_package_name: kano-draw-i18n-orig
   pot_dir: /mnt/translations/translations/kano-draw/

@@ -20,6 +20,7 @@ We've created Zanata translation projects for the following apps:
 * [kano-updater](https://translate.zanata.org/project/view/kano-updater/) - Update Kano Linux ([code repository](https://github.com/KanoComputing/kano-updater))
 * [kano-vnc](https://translate.zanata.org/project/view/kano-vnc/) - VNC wrapper for Kano OS ([code repository](https://github.com/KanoComputing/kano-vnc))
 * [kano-widgets](https://translate.zanata.org/project/view/kano-widgets/) - Kano LXPanel widgets ([code repository](https://github.com/KanoComputing/kano-widgets))
+* [make-art](https://translate.zanata.org/project/view/make-art/) - App to learn programming using a basic CoffeeScript drawing API ([code repository](https://github.com/KanoComputing/make-art))
 * [make-snake](https://translate.zanata.org/project/view/make-snake/) - Snake game running on the terminal ([code repository](https://github.com/KanoComputing/make-snake))
 * [terminal-quest](https://translate.zanata.org/project/view/terminal-quest/) - Introduction to terminal commands in the style of a text adventure game ([code repository](https://github.com/KanoComputing/terminal-quest))
 
