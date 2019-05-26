@@ -7,7 +7,6 @@ files from it into your Kano distribution.
 
 We've created Zanata translation projects for the following apps:
 
-* [kano-app-launcher](https://translate.zanata.org/project/view/kano-app-launcher/)
 * [kano-apps](https://translate.zanata.org/project/view/kano-apps/) - Launcher for different utilities ([code repository](https://github.com/KanoComputing/kano-apps))
 * [kano-dashboard](https://translate.zanata.org/project/view/kano-dashboard/)
 * [kano-feedback](https://translate.zanata.org/project/view/kano-feedback/) - Tool to report feedback and bugs ([code repository](https://github.com/KanoComputing/kano-feedback))

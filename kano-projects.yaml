@@ -4,11 +4,6 @@
 #   zanata_project_type:
 #   kano_i18n_package_name:
 #   pot_dir:
-- name: kano-app-launcher
-  zanata_project_id: kano-app-launcher
-  zanata_project_type: gettext
-  kano_i18n_package_name: kano-app-launcher-i18n-orig
-  pot_dir: /mnt/translations/translations/kano-app-launcher/
 - name: kano-apps
   zanata_project_id: kano-apps
   zanata_project_type: gettext
