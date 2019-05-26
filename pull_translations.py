@@ -102,6 +102,7 @@ with open("kano-projects.yaml", 'r') as projects_file:
         print(e)
 
 for project in projects:
+    print("\nSyncing translations for \033[93m%s\033[0m" % project['name'])
     fetch_package_version(project)
     with tempfile.TemporaryDirectory() as tmpdirname:
         copy_pot_files(project['pot_dir'], tmpdirname)
