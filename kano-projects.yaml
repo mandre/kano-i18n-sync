@@ -1,84 +1,106 @@
 ---
+# All entries should have the following fields
 # - name:
 #   zanata_project_id:
 #   zanata_project_type:
 #   kano_i18n_package_name:
 #   pot_dir:
+
 - name: kano-apps
   zanata_project_id: kano-apps
   zanata_project_type: gettext
   kano_i18n_package_name: kano-apps-i18n-orig
   pot_dir: /mnt/translations/translations/kano-apps/
-- name: kano-dashboard
-  zanata_project_id: kano-dashboard
-  zanata_project_type: gettext
-  kano_i18n_package_name: kano-dashboard-i18n-orig
-  pot_dir: /mnt/translations/translations/kano-dashboard/
-- name: make-art
-  zanata_project_id: make-art
-  zanata_project_type: podir
-  kano_i18n_package_name: kano-draw-i18n-orig
-  pot_dir: /mnt/translations/translations/kano-draw/
+
+# TODO(mandre) this is a QT app, it requires .qm files in
+# /usr/share/kano-dashboard/i18n/kano_dashboard_fr_FR.qm
+# - name: kano-dashboard
+#   zanata_project_id: kano-dashboard
+#   zanata_project_type: gettext
+#   kano_i18n_package_name: kano-dashboard-i18n-orig
+#   pot_dir: /mnt/translations/translations/kano-dashboard/
+
+# TODO(mandre) Find a way to import translations
+# https://github.com/KanoComputing/make-art/blob/master/TRANSLATION.md
+# - name: make-art
+#   zanata_project_id: make-art
+#   zanata_project_type: podir
+#   kano_i18n_package_name: kano-draw-i18n-orig
+#   pot_dir: /mnt/translations/translations/kano-draw/
+
 - name: kano-feedback
   zanata_project_id: kano-feedback
   zanata_project_type: gettext
   kano_i18n_package_name: kano-feedback-i18n-orig
   pot_dir: /mnt/translations/translations/kano-feedback/
+
 - name: kano-greeter
   zanata_project_id: kano-greeter
   zanata_project_type: gettext
   kano_i18n_package_name: kano-greeter-i18n-orig
   pot_dir: /mnt/translations/translations/kano-greeter/
+
 - name: kano-init
   zanata_project_id: kano-init
   zanata_project_type: gettext
   kano_i18n_package_name: kano-init-i18n-orig
   pot_dir: /mnt/translations/translations/kano-init/
-- name: kano-overworld
-  zanata_project_id: kano-overworld
-  zanata_project_type: gettext
-  kano_i18n_package_name: kano-overworld-i18n-orig
-  pot_dir: /mnt/translations/translations/kano-overworld/
+
+# TODO(mandre) Need to convert po files to lua dicts
+# - name: kano-overworld
+#   zanata_project_id: kano-overworld
+#   zanata_project_type: gettext
+#   kano_i18n_package_name: kano-overworld-i18n-orig
+#   pot_dir: /mnt/translations/translations/kano-overworld/
+
 - name: kano-peripherals
   zanata_project_id: kano-peripherals
   zanata_project_type: gettext
   kano_i18n_package_name: kano-peripherals-i18n-orig
   pot_dir: /mnt/translations/translations/kano-peripherals/
+
 - name: kano-profile
   zanata_project_id: kano-profile
   zanata_project_type: gettext
   kano_i18n_package_name: kano-profile-i18n-orig
   pot_dir: /mnt/translations/translations/kano-profile/
+
 - name: kano-settings
   zanata_project_id: kano-settings
   zanata_project_type: gettext
   kano_i18n_package_name: kano-settings-i18n-orig
   pot_dir: /mnt/translations/translations/kano-settings/
+
 - name: kano-toolset
   zanata_project_id: kano-toolset
   zanata_project_type: gettext
   kano_i18n_package_name: kano-toolset-i18n-orig
   pot_dir: /mnt/translations/translations/kano-toolset/
+
 - name: kano-updater
   zanata_project_id: kano-updater
   zanata_project_type: gettext
   kano_i18n_package_name: kano-updater-i18n-orig
   pot_dir: /mnt/translations/translations/kano-updater/
+
 - name: kano-vnc
   zanata_project_id: kano-vnc
   zanata_project_type: gettext
   kano_i18n_package_name: kano-vnc-i18n-orig
   pot_dir: /mnt/translations/translations/kano-vnc/
+
 - name: kano-widgets
   zanata_project_id: kano-widgets
   zanata_project_type: gettext
   kano_i18n_package_name: kano-widgets-i18n-orig
   pot_dir: /mnt/translations/translations/kano-widgets/
+
 - name: make-snake
   zanata_project_id: make-snake
   zanata_project_type: gettext
   kano_i18n_package_name: make-snake-i18n-orig
   pot_dir: /mnt/translations/translations/make-snake/
+
 - name: terminal-quest
   zanata_project_id: terminal-quest
   zanata_project_type: gettext
