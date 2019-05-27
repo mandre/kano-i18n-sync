@@ -85,6 +85,19 @@ def copy_mo_file(project, podir, lang):
                      % (os.path.join("/tmp", mo_file), lang, mo_file))
 
 
+def copy_sudoers_file():
+    print("Copying sudoers files")
+    scp.put(os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                         "sudoers.conf"),
+            os.path.join("/tmp", "sudoers.conf"))
+    # Kano let's us use python with sudo passwordless, let's use it to our
+    # advantage to move our sudoers file to /etc/sudoers.d
+    ssh.exec_command("sudo python -c 'import os; os.rename(\"%s\", \"%s\")'" %
+                     (os.path.join("/tmp", "sudoers.conf"),
+                      os.path.join("/etc", "sudoers.d", "kano-i18n-sync_conf"))
+                     )
+
+
 # This assumes there is a kano host in your ~/.ssh/config with public key
 # authentication setup
 ssh = paramiko.SSHClient()
@@ -92,6 +105,8 @@ ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 ssh.connect('kano')
 
 scp = ssh.open_sftp()
+
+copy_sudoers_file()
 
 lang = args.lang
 

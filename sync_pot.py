@@ -19,7 +19,6 @@ def run_command(command):
 
 def update_i18n_packages():
     print("Updating i18n packages to latest version on kano")
-    # FIXME(mandre) Make sure the user has passwordless sudo
     ssh.exec_command("sudo apt-get update")
     ssh.exec_command("sudo apt-get install *-i18n-orig")
 
