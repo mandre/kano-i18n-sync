@@ -96,6 +96,8 @@ def copy_sudoers_file():
                      (os.path.join("/tmp", "sudoers.conf"),
                       os.path.join("/etc", "sudoers.d", "kano-i18n-sync_conf"))
                      )
+    ssh.exec_command("sudo python -c 'import os; os.chown(\"%s\", 0, 0)'" %
+                     os.path.join("/etc", "sudoers.d", "kano-i18n-sync_conf"))
 
 
 # This assumes there is a kano host in your ~/.ssh/config with public key
