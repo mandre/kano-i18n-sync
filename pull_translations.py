@@ -4,6 +4,7 @@ import argparse
 import glob
 import os
 import paramiko
+import polib
 import subprocess
 import tempfile
 import yaml
@@ -100,6 +101,33 @@ def copy_sudoers_file():
                      os.path.join("/etc", "sudoers.d", "kano-i18n-sync_conf"))
 
 
+def generate_lua_dict(project, podir, lang):
+    print("Generate lua dict for %s" % project['name'])
+    pofile = os.path.join(podir, "%s.po" % lang)
+    if not os.path.isfile(pofile):
+        print("Could not read po file at %s" % pofile)
+        exit()
+    po = polib.pofile(pofile)
+    f = open(os.path.join(podir, "lang.lua"), "w")
+    f.write("return {\n")
+    for entry in po:
+        for occurrence in entry.occurrences:
+            value = entry.msgstr if entry.translated() else entry.msgid
+            f.write("    {} = \"{}\",\n".format(occurrence[0],
+                                                polib.escape(value)))
+    f.write("}")
+    f.close
+
+
+def copy_kano_overworld_file(project, podir, lang):
+    # TODO(mandre) Properly get the locale. This will do for now
+    locale = "{}_{}".format(lang, lang.upper())
+    ssh.exec_command("mkdir -p res/locales/{}/".format(locale))
+    scp.put(os.path.join(podir, "lang.lua"),
+            os.path.join("/home/martin", "res", "locales", locale, "lang.lua"))
+    ssh.exec_command("sudo zip -9 -r /usr/share/kano-overworld/build/kanoOverworld.love res/")
+
+
 # This assumes there is a kano host in your ~/.ssh/config with public key
 # authentication setup
 ssh = paramiko.SSHClient()
@@ -125,8 +153,12 @@ for project in projects:
         copy_pot_files(project['pot_dir'], tmpdirname)
         pull_po(project, tmpdirname, lang)
         if glob.glob(os.path.join(tmpdirname, "*.po")):
-            build_mo(project, tmpdirname, lang)
-            copy_mo_file(project, tmpdirname, lang)
+            if project["name"] == "kano-overworld":
+                generate_lua_dict(project, tmpdirname, lang)
+                copy_kano_overworld_file(project, tmpdirname, lang)
+            else:
+                build_mo(project, tmpdirname, lang)
+                copy_mo_file(project, tmpdirname, lang)
 
 scp.close()
 ssh.close()

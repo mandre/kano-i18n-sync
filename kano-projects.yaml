@@ -46,12 +46,11 @@
   kano_i18n_package_name: kano-init-i18n-orig
   pot_dir: /mnt/translations/translations/kano-init/
 
-# TODO(mandre) Need to convert po files to lua dicts
-# - name: kano-overworld
-#   zanata_project_id: kano-overworld
-#   zanata_project_type: gettext
-#   kano_i18n_package_name: kano-overworld-i18n-orig
-#   pot_dir: /mnt/translations/translations/kano-overworld/
+- name: kano-overworld
+  zanata_project_id: kano-overworld
+  zanata_project_type: gettext
+  kano_i18n_package_name: kano-overworld-i18n-orig
+  pot_dir: /mnt/translations/translations/kano-overworld/
 
 - name: kano-peripherals
   zanata_project_id: kano-peripherals
