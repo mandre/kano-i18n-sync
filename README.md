@@ -69,7 +69,7 @@ ssh kano
 
 ## Usage
 
-### Upload updated translation templates upon new Kano release
+### Upload updated translation templates upon new Kano release (for maintainers only)
 
 The `sync_pot.py` script connects to the Kano computer to retrieve the latest
 translation templates then takes care of creating the project and new versions
