@@ -29,11 +29,14 @@ We've created Zanata translation projects for the following apps:
 
 The scripts depend on
 [zanata-python-client](https://github.com/zanata/zanata-python-client) to
-communicate with the Zanata server and [polib](https://polib.readthedocs.io/).
-To install these packages on Fedora, run:
+communicate with the Zanata server and [polib](https://polib.readthedocs.io/)
+to work with translation files. It also needs
+[paramiko](http://www.paramiko.org/) to connect to the Kano computer via SSH
+and [pyyaml](https://pyyaml.org/) to read yaml files.  To install these
+packages on Fedora, run:
 
 ```
-sudo dnf install python3-zanata-client python3-polib
+sudo dnf install python3-zanata-client python3-polib python3-paramiko python3-pyyaml
 ```
 
 [Create yourself an account on
