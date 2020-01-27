@@ -97,5 +97,5 @@ You need to pass it a locale name that is valid on the Zanata server, for
 instance:
 
 ```
-./pull_translations.py fr
+./pull_translations.py --lang fr
 ```
