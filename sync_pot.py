@@ -173,11 +173,15 @@ if 'kano' not in ssh_config.get_hostnames():
 
 cfg = {}
 host_config = ssh_config.lookup('kano')
-for k in ('hostname', 'username', 'port'):
+for k in ('hostname', 'port'):
     if k in host_config:
         cfg[k] = host_config[k]
-        if 'proxycommand' in host_config:
-            cfg['sock'] = paramiko.ProxyCommand(host_config['proxycommand'])
+
+if 'user' in host_config:
+    cfg['username'] = host_config['user']
+
+if 'proxycommand' in host_config:
+    cfg['sock'] = paramiko.ProxyCommand(host_config['proxycommand'])
 
 ssh.connect(**cfg)
 
