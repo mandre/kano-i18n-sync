@@ -132,7 +132,28 @@ def copy_kano_overworld_file(project, podir, lang):
 # authentication setup
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ssh.connect('kano')
+
+ssh_config = paramiko.SSHConfig()
+user_config_file = os.path.expanduser("~/.ssh/config")
+if os.path.exists(user_config_file):
+    with open(user_config_file) as f:
+        ssh_config.parse(f)
+
+if 'kano' not in ssh_config.get_hostnames():
+    print("The \"kano\" host was not found in $HOME/.ssh/config.\n")
+    print("Check how to set it up SSH at:")
+    print("https://github.com/mandre/kano-i18n-sync#setup")
+    exit()
+
+cfg = {}
+host_config = ssh_config.lookup('kano')
+for k in ('hostname', 'username', 'port'):
+    if k in host_config:
+        cfg[k] = host_config[k]
+        if 'proxycommand' in host_config:
+            cfg['sock'] = paramiko.ProxyCommand(host_config['proxycommand'])
+
+ssh.connect(**cfg)
 
 scp = ssh.open_sftp()
 
