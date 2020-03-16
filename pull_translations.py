@@ -32,7 +32,7 @@ def fetch_package_version(project):
     if version:
         project['version'] = version
     else:
-        print("Could not fetch version for %s" % project['name'])
+        print("Could not fetch version for %s: %s" % (project['name'], stderr.read().decode()))
         exit()
 
 
@@ -51,7 +51,7 @@ def pull_po(project, podir, lang):
                "--project-version", project['version'],
                "--project-type", project['zanata_project_type'],
                ]
-    print(" ".join(command))
+    print("-> %s" % " ".join(command))
     stdout, stderr, exit_status = run_command(command)
     if exit_status != 0:
         print("Failed to pull files")
@@ -64,7 +64,7 @@ def build_mo(project, podir, lang):
     command = ["msgfmt", "-c", "-o",
                os.path.join(podir, "%s.mo" % project['name']),
                " ".join(glob.glob(os.path.join(podir, "*.po")))]
-    print(" ".join(command))
+    print("-> %s" % " ".join(command))
     stdout, stderr, exit_status = run_command(command)
     if exit_status != 0:
         print("Failed to build mo file")
@@ -76,8 +76,10 @@ def copy_mo_file(project, podir, lang):
     print("Copying mo file for %s" % project['name'])
     mo_file = "%s.mo" % project['name']
     scp.put(os.path.join(podir, mo_file), os.path.join("/tmp", mo_file))
-    ssh.exec_command("sudo mv %s /usr/share/locale/%s/LC_MESSAGES/%s"
-                     % (os.path.join("/tmp", mo_file), lang, mo_file))
+    command = "sudo mv %s /usr/share/locale/%s/LC_MESSAGES/%s" \
+               % (os.path.join("/tmp", mo_file), lang, mo_file)
+    print("-> %s" % command)
+    ssh.exec_command(command)
 
 
 def generate_lua_dict(project, podir, lang):
