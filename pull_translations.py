@@ -23,12 +23,6 @@ def run_command(command):
     return stdout.decode(), stderr.decode(), proc.returncode
 
 
-def update_i18n_packages():
-    print("Updating i18n packages to latest version on kano")
-    ssh.exec_command("sudo apt-get update")
-    ssh.exec_command("sudo apt-get install *-i18n-orig")
-
-
 def fetch_package_version(project):
     print("Fetching package version for %s" % project['name'])
     command = "dpkg-query --showformat='${Version}' --show %s" % \
