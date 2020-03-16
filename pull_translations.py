@@ -80,21 +80,6 @@ def copy_mo_file(project, podir, lang):
                      % (os.path.join("/tmp", mo_file), lang, mo_file))
 
 
-def copy_sudoers_file():
-    print("Copying sudoers files")
-    scp.put(os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                         "sudoers.conf"),
-            os.path.join("/tmp", "sudoers.conf"))
-    # Kano let's us use python with sudo passwordless, let's use it to our
-    # advantage to move our sudoers file to /etc/sudoers.d
-    ssh.exec_command("sudo python -c 'import os; os.rename(\"%s\", \"%s\")'" %
-                     (os.path.join("/tmp", "sudoers.conf"),
-                      os.path.join("/etc", "sudoers.d", "kano-i18n-sync_conf"))
-                     )
-    ssh.exec_command("sudo python -c 'import os; os.chown(\"%s\", 0, 0)'" %
-                     os.path.join("/etc", "sudoers.d", "kano-i18n-sync_conf"))
-
-
 def generate_lua_dict(project, podir, lang):
     print("Generate lua dict for %s" % project['name'])
     pofile = os.path.join(podir, "%s.po" % lang)
@@ -154,8 +139,6 @@ if 'proxycommand' in host_config:
 ssh.connect(**cfg)
 
 scp = ssh.open_sftp()
-
-copy_sudoers_file()
 
 lang = args.lang
 
