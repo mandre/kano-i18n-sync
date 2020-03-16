@@ -46,6 +46,8 @@ key](https://translate.zanata.org/dashboard/settings/client), and copy the
 content of `zanata.ini` that you need to place in a new file named
 `$HOME/.config/zanata.ini`
 
+### Enable SSH access to Kano
+
 Now you need to prepare your Kano computer so that the scripts can connect to
 it. To turn on the SSH server on the Kano box, go to the `Advanced` setting and
 enable SSH. From the computer that is going to run the scripts, add a `kano`
@@ -65,6 +67,36 @@ ssh-copy-id kano
 Verify you're able to connect to your Kano computer with:
 ```
 ssh kano
+```
+
+### Prepare Kano
+
+#### Sudo access
+
+Copy the `sudoers.conf` file to Kano:
+```
+scp sudoers.conf kano:
+```
+
+Once logged it to Kano via SSH:
+```
+sudo chown root.root sudoers.conf
+sudo mv sudoers.conf /etc/sudoers.d/kano-i18n-sync_conf
+```
+
+#### Install dependencies
+
+On Kano:
+```
+sudo apt-get update
+sudo apt-get install *-i18n-orig zip
+```
+
+#### Change locale on Kano
+
+On Kano:
+```
+sudo dpkg-reconfigure locales
 ```
 
 ## Usage
