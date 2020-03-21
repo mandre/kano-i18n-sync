@@ -92,6 +92,11 @@ sudo apt-get update
 sudo apt-get install *-i18n-orig zip
 ```
 
+You may also want to install localized versions of some applications:
+```
+sudo apt-get install chromium-browser-l10n libreoffice-l10n-fr
+```
+
 #### Change locale on Kano
 
 On Kano:
