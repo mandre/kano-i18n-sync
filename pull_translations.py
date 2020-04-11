@@ -23,6 +23,11 @@ def run_command(command):
     return stdout.decode(), stderr.decode(), proc.returncode
 
 
+def get_locale(lang):
+    # TODO(mandre) Properly get the locale. This will do for now
+    return "{}_{}".format(lang, lang.upper())
+
+
 def fetch_package_version(project):
     print("Fetching package version for %s" % project['name'])
     command = "dpkg-query --showformat='${Version}' --show %s" % \
@@ -101,12 +106,54 @@ def generate_lua_dict(project, podir, lang):
 
 
 def copy_kano_overworld_file(project, podir, lang):
-    # TODO(mandre) Properly get the locale. This will do for now
-    locale = "{}_{}".format(lang, lang.upper())
+    locale = get_locale(lang)
     ssh.exec_command("mkdir -p res/locales/{}/".format(locale))
     scp.put(os.path.join(podir, "lang.lua"),
             os.path.join("/home/martin", "res", "locales", locale, "lang.lua"))
     ssh.exec_command("sudo zip -9 -r /usr/share/kano-overworld/build/kanoOverworld.love res/")
+
+
+# Create assets from assets.po and remove the file
+def create_terminal_quest_assets(podir, lang):
+    print("Creating terminal quest assets")
+    pofile = os.path.join(podir, lang, "assets.po")
+    po = polib.pofile(pofile)
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        for entry in po:
+            for filename in entry.occurrences:
+                f = open(os.path.join(tmpdirname, filename[0]), "w")
+                value = entry.msgstr if entry.translated() else entry.msgid
+                f.write(polib.unescape(value))
+                f.close
+        # SCP directory
+        copy_terminal_quest_assets(tmpdirname, lang)
+
+    # We don't need the assets.po file anymore
+    os.remove(pofile)
+
+
+def copy_terminal_quest_assets(assets_dir, lang):
+    locale = get_locale(lang)
+    remote_dir = "/tmp/%s/story_files" % locale
+    command = "mkdir -p %s" % remote_dir
+    print("-> %s" % command)
+    ssh.exec_command(command)
+
+    # Copy files to remote host
+    for f in os.listdir(assets_dir):
+        scp.put(os.path.join(assets_dir, f), os.path.join(remote_dir, f))
+
+    # Remove existing directory
+    command = "sudo rm -rf /usr/lib/python2.7/dist-packages/linux_story/ascii_assets/locale/%s/" \
+               % locale
+    print("-> %s" % command)
+    ssh.exec_command(command)
+
+    # Move assets to right directory
+    command = "sudo mv %s /usr/lib/python2.7/dist-packages/linux_story/ascii_assets/locale/" \
+               % ("/tmp/%s" % locale)
+    print("-> %s" % command)
+    ssh.exec_command(command)
 
 
 # This assumes there is a kano host in your ~/.ssh/config with public key
@@ -156,6 +203,12 @@ for project in projects:
     with tempfile.TemporaryDirectory() as tmpdirname:
         copy_pot_files(project['pot_dir'], tmpdirname)
         pull_po(project, tmpdirname, lang)
+
+        # podir projects have a dir per lang
+        if project["name"] == "terminal-quest":
+            create_terminal_quest_assets(tmpdirname, lang)
+
+        # This is only valid for gettext projects
         if glob.glob(os.path.join(tmpdirname, "*.po")):
             if project["name"] == "kano-overworld":
                 generate_lua_dict(project, tmpdirname, lang)
