@@ -102,6 +102,7 @@
 
 - name: terminal-quest
   zanata_project_id: terminal-quest
-  zanata_project_type: gettext
+  zanata_project_type: podir
   kano_i18n_package_name: linux-story-i18n-orig
   pot_dir: /mnt/translations/translations/linux-story/
+  assets_dir: /usr/lib/python2.7/dist-packages/linux_story/ascii_assets/story_files

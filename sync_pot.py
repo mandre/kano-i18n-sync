@@ -4,9 +4,11 @@
 import glob
 import os
 import paramiko
+import polib
 import re
 import subprocess
 import tempfile
+import time
 import yaml
 
 
@@ -97,6 +99,39 @@ def copy_pot_files(remote, local):
     for filename in scp.listdir():
         print("Copying %s" % filename)
         scp.get(os.path.join(remote, filename), os.path.join(local, filename))
+
+
+def copy_terminal_quest_assets(remote, local):
+    print("Copying terminal quest assets from %s on kano to %s" % (remote, local))
+    scp.chdir(remote)
+    for filename in scp.listdir():
+        print("Copying %s" % filename)
+        scp.get(os.path.join(remote, filename), os.path.join(local, filename))
+
+
+def terminal_quest_assets_to_pot(assets_dir, pot_dir):
+    pot = polib.POFile()
+    pot.metadata = {
+        'Project-Id-Version': 'terminal-quest',
+        'Report-Msgid-Bugs-To': '',
+        'POT-Creation-Date': time.strftime("%Y-%m-%d %H:%M%z"),
+        'PO-Revision-Date': time.strftime("%Y-%m-%d %H:%M%z"),
+        'Last-Translator': '',
+        'Language-Team': 'English',
+        'MIME-Version': '1.0',
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Content-Transfer-Encoding': '8bit',
+    }
+
+    for f in os.listdir(assets_dir):
+        with open(os.path.join(assets_dir, f), 'r') as asset_file:
+            entry = polib.POEntry(
+                msgid=asset_file.read(),
+                msgstr=u'',
+                occurrences=[(f, '')]
+            )
+        pot.append(entry)
+    pot.save(os.path.join(pot_dir, 'assets.pot'))
 
 
 def validate_pot_files(potdir):
@@ -202,6 +237,10 @@ for project in projects:
 
     with tempfile.TemporaryDirectory() as tmpdirname:
         copy_pot_files(project['pot_dir'], tmpdirname)
+        if project['name'] == 'terminal-quest':
+            with tempfile.TemporaryDirectory() as assetsdirname:
+                copy_terminal_quest_assets(project['assets_dir'], assetsdirname)
+                terminal_quest_assets_to_pot(assetsdirname, tmpdirname)
         validate_pot_files(tmpdirname)
         upload_pot_files(project, tmpdirname)
 
