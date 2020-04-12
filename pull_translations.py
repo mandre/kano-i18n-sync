@@ -207,6 +207,8 @@ for project in projects:
         # podir projects have a dir per lang
         if project["name"] == "terminal-quest":
             create_terminal_quest_assets(tmpdirname, lang)
+            build_mo(project, os.path.join(tmpdirname, lang), lang)
+            copy_mo_file(project, os.path.join(tmpdirname, lang), lang)
 
         # This is only valid for gettext projects
         if glob.glob(os.path.join(tmpdirname, "*.po")):
